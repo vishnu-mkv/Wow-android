@@ -116,6 +116,11 @@ class MainActivity : ComponentActivity() {
                                 fontSize = 12.sp,
                                 color = Color.DarkGray
                             );
+                            Text(
+                                "Proceed",
+                                fontSize = 12.sp,
+                                color = Color.DarkGray
+                            );
 
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
