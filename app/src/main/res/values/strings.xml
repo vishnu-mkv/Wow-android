@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Wow</string>
+    <string name="title_activity_secondary">SecondaryActivity</string>
 </resources>
