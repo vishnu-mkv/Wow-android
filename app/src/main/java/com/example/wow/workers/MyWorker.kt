@@ -10,7 +10,7 @@ class MyWorker(appContext: Context, workerParams: WorkerParameters):
     CoroutineWorker(appContext, workerParams) {
         companion object {
             const val Progress = "Progress"
-            private const val delayDuration = 20L
+            private const val delayDuration = 30L
         }
 
         override suspend fun doWork(): Result {

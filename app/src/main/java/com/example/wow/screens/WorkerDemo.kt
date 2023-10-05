@@ -1,5 +1,6 @@
 package com.example.wow.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,11 +54,13 @@ fun WorkerDemo() {
         .getWorkInfoByIdLiveData(myWorkRequest.id)
         .observeForever { workInfo: WorkInfo? ->
             if (workInfo != null) {
+
                 val progress = workInfo.progress
                 val value = progress.getInt(Progress, 0).toFloat() / 100
                 // Do something with progress information
                 progressValue = value
-                if (value >= 1) {
+
+                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
                     showLoading = false
                 }
             }
@@ -82,7 +85,7 @@ fun WorkerDemo() {
                     modifier = Modifier.weight(1F),
                     progress = progressValue
                 )
-                Text(text = "${String.format("%.1f", progressValue*100)} %")
+                Text(text = "${String.format("%.0f", progressValue*100)} %")
             }
 
         }

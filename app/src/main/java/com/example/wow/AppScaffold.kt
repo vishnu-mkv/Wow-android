@@ -2,7 +2,11 @@ package com.example.wow
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Divider
@@ -24,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.wow.screens.characters.CharacterDetail
+import com.example.wow.screens.characters.CharacterForm
+import com.example.wow.screens.characters.CharacterList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -62,18 +69,28 @@ fun AppScaffold() {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet() {
                 Text("Wow", modifier = Modifier.padding(16.dp))
                 Divider()
 
-                screens.forEach{screen ->
-                    NavigationDrawerItem(
-                        label = { Text(text = screen.label) },
-                        selected = false,
-                        onClick = { navigate(screen.route) }
-                    )
-                }
+                Column(modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxHeight()) {
+                    screens.forEach { screen ->
+                        NavigationDrawerItem(
+                            label = { Text(text = screen.label) },
+                            selected = false,
+                            onClick = { navigate(screen.route) }
+                        )
+                    }
 
+                    NavigationDrawerItem(
+                        label = { Text(text = "Characters") },
+                        selected = false,
+                        onClick = { navigate("characters") }
+                    )
+
+                }
             }
         }
     ) {
@@ -82,11 +99,25 @@ fun AppScaffold() {
             content = {
                 NavHost(navController = navController,
                     startDestination = "home",
-                    modifier = Modifier.padding(it)) {
+                    modifier = Modifier
+                        .padding(it)
+                        .verticalScroll(rememberScrollState())) {
                     screens.forEach { screen ->
                         composable(route = screen.route) {
                             screen.composable()
                         }
+                    }
+
+                    composable("characters/create") {
+                        CharacterForm(navController)
+                    }
+
+                    composable("characters/view/{id}") { backStackEntry ->
+                        CharacterDetail(navController, backStackEntry.arguments?.getString("id"))
+                    }
+
+                    composable("characters") { backStackEntry ->
+                        CharacterList(navController)
                     }
             }
         },

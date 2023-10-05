@@ -1,11 +1,14 @@
 package com.example.wow.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,7 +38,8 @@ import com.example.wow.R
 fun LoginScreen() {
     Column(
         verticalArrangement = Arrangement.spacedBy(25.dp, Alignment.CenterVertically),
-        modifier = Modifier.padding(10.dp),
+        modifier = Modifier
+            .padding(10.dp)
     ) {
         var username by remember {
             mutableStateOf("")
